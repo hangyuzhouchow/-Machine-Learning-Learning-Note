@@ -1,6 +1,16 @@
+################## Note for machine learning in R #########################
+
+
+##########Linear Model##############
+
+###Validation Set Approach###
+#We explore the use of the validation set approach in order to estimate the
+#test error rates that result from fitting various linear models on the Auto
+#data set.
+
 library(ISLR)
 set.seed(1)
-train = sample(392,196)
+train = sample(392,196)  ###Use sample function to split the the set of obs
 lm.fit = lm(mpg~horsepower,data = Auto, subset = train)
 attach(Auto)
 mean((mpg-predict(lm.fit, Auto))[-train]^2)
@@ -11,6 +21,8 @@ cv.err = cv.glm(Auto, glm.fit)
 cv.err$delta
 
 ## LOOCV cv result in poly fits.
+#We can use the poly() function to estimate the test error for the polynomial
+#and cubic regressions.
 cv.error = rep(0,5)
 for (i in 1:5) {
   glm.fit = glm(mpg~poly(horsepower,i),data = Auto)
@@ -28,7 +40,7 @@ for (i in 1:10) {
 cv.error.10
 
 
-###Bootstrap
+###Bootstrap###
 ################Estimating the accuracy of a statistic interest #####
 #1. create a function that computes the statistic of interest
 #2. use boot() function to perform bootstrap by repeatedly 
